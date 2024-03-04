@@ -123,6 +123,8 @@ private2_route_s3_endpoint = {
     destination_cidr_block = "0.0.0.0/0"
   }
 }
+
+
 # Security Groups
 # -----------------
 security_group1 = {
@@ -204,6 +206,5 @@ mwaa_environment = {
       enabled   = true
       log_level = "INFO"
     }]
-
   }
 }
