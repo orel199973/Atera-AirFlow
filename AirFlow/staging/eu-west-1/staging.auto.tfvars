@@ -1,9 +1,9 @@
 # Global Vars
 # ----------------
 environment = "staging"
-# company     = "atera"
 project  = "airflow"
 location = "eu-west-1"
+# company     = "atera"
 
 
 # VPCs

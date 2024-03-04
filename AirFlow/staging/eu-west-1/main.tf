@@ -1,8 +1,8 @@
 locals {
   name-prefix = {
     environment = var.environment
-    # company     = var.company
     project = var.project
+    # company     = var.company
   }
   prefix = "${var.project}-${var.environment}"
 }
@@ -107,6 +107,7 @@ resource "aws_security_group_rule" "sg2_role" {
   security_group_id        = module.security_group2["security-group2"].id
 }
 
+
 # #  Route Table
 # # ----------------
 ## Public:
@@ -206,6 +207,7 @@ resource "aws_s3_bucket_object" "upload_requirements" {
   key    = "requirements.txt"
 }
 
+
 # VPC Endpoint
 # -----------------
 module "vpc_endpoint" {
@@ -217,6 +219,7 @@ module "vpc_endpoint" {
   vpc_id              = module.vpc["vpc"].id
   route_table_ids     = [module.private1_route_table["private1-route-table"].id, module.private2_route_table["private2-route-table"].id]
 }
+
 
 # MWAA Environment
 # -----------------
