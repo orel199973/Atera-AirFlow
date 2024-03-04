@@ -1,75 +1,75 @@
 variable "name" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "execution_role_arn" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "source_bucket_arn" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "dag_s3_path" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "environment_class" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "max_workers" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "min_workers" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "airflow_version" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "kms_key" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "webserver_access_mode" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "weekly_maintenance_window_start" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "plugins_s3_path" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "plugins_s3_object_version" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "requirements_s3_path" {
-  type = any
+  type    = any
   default = null
 }
 
 variable "requirements_s3_object_version" {
-  type = any
+  type    = any
   default = null
 }
 

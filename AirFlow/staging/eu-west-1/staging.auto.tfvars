@@ -2,8 +2,8 @@
 # ----------------
 environment = "staging"
 # company     = "atera"
-project     = "airflow"
-location    = "eu-west-1"
+project  = "airflow"
+location = "eu-west-1"
 
 
 # VPCs
@@ -71,6 +71,7 @@ nat_gateway = {
   }
 }
 
+
 # #  Route Table
 # # ---------------
 public_route_table = {
@@ -127,12 +128,6 @@ private2_route_s3_endpoint = {
 security_group1 = {
   security-group1 = {
     ingress = [{}]
-    # ingress = [{
-    #   from_port = 0
-    #   to_port   = 0
-    #   protocol  = "-1"
-    #   }]
-    # egress = [{}]
     egress = [{
       from_port   = 0
       to_port     = 0
@@ -145,12 +140,6 @@ security_group1 = {
 security_group2 = {
   security-group2 = {
     ingress = [{}]
-    # ingress = [{
-    #   from_port = 0
-    #   to_port   = 0
-    #   protocol  = "-1"
-    #   }]
-    # egress = [{}]
     egress = [{
       from_port   = 0
       to_port     = 0
@@ -169,6 +158,7 @@ s3 = {
   }
 }
 
+
 # VPC Endpoint
 # -----------------
 vpc_endpoint = {
@@ -184,12 +174,36 @@ vpc_endpoint = {
 # -----------------
 mwaa_environment = {
   mwaa-poc = {
-    dag_s3_path = "dags/"
-    environment_class = "mw1.medium"
-    requirements_s3_path = "requirements.txt"
+    dag_s3_path           = "dags/"
+    environment_class     = "mw1.medium"
+    max_workers           = 5
+    min_workers           = 2
+    requirements_s3_path  = "requirements.txt"
     webserver_access_mode = "PUBLIC_ONLY"
     network_configuration = [{
     }]
+    logging_configuration = [{
+    }]
+    dag_processing_logs = [{
+      enabled   = true
+      log_level = "WARNING"
+    }]
+    scheduler_logs = [{
+      enabled   = true
+      log_level = "INFO"
+    }]
+    task_logs = [{
+      enabled   = true
+      log_level = "INFO"
+    }]
+    webserver_logs = [{
+      enabled   = true
+      log_level = "WARNING"
+    }]
+    worker_logs = [{
+      enabled   = true
+      log_level = "INFO"
+    }]
+
   }
 }
-
