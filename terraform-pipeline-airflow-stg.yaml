@@ -1,0 +1,43 @@
+pr:
+  branches:
+    include:
+    - main
+
+trigger:
+  branches:
+    include:
+    - main
+
+pool:
+  name: 'AksAutomationAgentPool'
+
+variables:
+  terraformVersion: '1.6.6'
+  AwsTfServiceConnectionName: 'aws-tf-cerds'
+  
+steps:
+  - checkout: self
+
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Init'
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/AirFlow/environment/staging/eu-west-1'
+      backendServiceArm: $(AwsTfServiceConnectionName)
+ 
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Plan'
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/AirFlow/environment/staging/eu-west-1'
+      environmentServiceNameAzureRM: $(AwsTfServiceConnectionName)
+
+  - task: TerraformTaskV4@4
+    displayName: 'Terraform Apply'
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/AirFlow/environment/staging/eu-west-1'
+      environmentServiceNameAzureRM: $(AwsTfServiceConnectionName)

@@ -11,7 +11,7 @@ locals {
 # VPC
 # -----------------
 module "vpc" {
-  source     = "../../../modules/vpc"
+  source     = "../../../../modules/vpc"
   for_each   = var.vpc
   name       = "${each.key}-${local.prefix}"
   cidr_block = each.value.cidr_block
@@ -21,7 +21,7 @@ module "vpc" {
 # Subnet
 # -----------------
 module "subnet" {
-  source                  = "../../../modules/subnet"
+  source                  = "../../../../modules/subnet"
   for_each                = var.subnet
   name                    = "${each.key}-${local.prefix}"
   vpc_id                  = module.vpc["vpc"].id
@@ -34,7 +34,7 @@ module "subnet" {
 # Internet Gateway
 # -----------------
 module "internet_gateway" {
-  source   = "../../../modules/aws-internet-gateway"
+  source   = "../../../../modules/aws-internet-gateway"
   for_each = var.internet_gateway
   name     = "${each.key}-${local.prefix}"
   vpc_id   = module.vpc["vpc"].id
@@ -44,7 +44,7 @@ module "internet_gateway" {
 # # Elastic IP
 # # -----------------
 module "elastic_ip" {
-  source   = "../../../modules/aws-eip"
+  source   = "../../../../modules/aws-eip"
   for_each = var.elastic_ip
   name     = "${each.key}-${local.prefix}"
 }
@@ -53,7 +53,7 @@ module "elastic_ip" {
 # NAT Gateway
 # -----------------
 module "nat_gateway" {
-  source        = "../../../modules/aws-nat-gateway"
+  source        = "../../../../modules/aws-nat-gateway"
   for_each      = var.nat_gateway
   name          = "${each.key}-${local.prefix}"
   subnet_id     = module.subnet["public-subnet-1a"].id
@@ -65,7 +65,7 @@ module "nat_gateway" {
 # Security Group
 # -----------------
 module "security_group1" {
-  source   = "../../../modules/security-group"
+  source   = "../../../../modules/security-group"
   for_each = var.security_group1
   name     = "sg1-${local.prefix}"
   vpc_id   = module.vpc["vpc"].id
@@ -75,7 +75,7 @@ module "security_group1" {
 }
 
 module "security_group2" {
-  source   = "../../../modules/security-group"
+  source   = "../../../../modules/security-group"
   for_each = var.security_group2
   name     = "sg2-${local.prefix}"
   vpc_id   = module.vpc["vpc"].id
@@ -112,7 +112,7 @@ resource "aws_security_group_rule" "sg2_role" {
 # # ----------------
 ## Public:
 module "public_route_table" {
-  source   = "../../../modules/route-table"
+  source   = "../../../../modules/route-table"
   for_each = var.public_route_table
   name     = each.key
   vpc_id   = module.vpc["vpc"].id
@@ -120,14 +120,14 @@ module "public_route_table" {
 
 ## Private:
 module "private1_route_table" {
-  source   = "../../../modules/route-table"
+  source   = "../../../../modules/route-table"
   for_each = var.private1_route_table
   name     = each.key
   vpc_id   = module.vpc["vpc"].id
 }
 
 module "private2_route_table" {
-  source   = "../../../modules/route-table"
+  source   = "../../../../modules/route-table"
   for_each = var.private2_route_table
   name     = each.key
   vpc_id   = module.vpc["vpc"].id
@@ -137,7 +137,7 @@ module "private2_route_table" {
 # # -------
 ## Public:
 module "public_route" {
-  source                 = "../../../modules/route"
+  source                 = "../../../../modules/route"
   for_each               = var.public_route
   route_table_id         = module.public_route_table["public-route-table"].id
   destination_cidr_block = lookup(each.value, "destination_cidr_block", null)
@@ -146,7 +146,7 @@ module "public_route" {
 
 ## Private:
 module "private_route1" {
-  source                 = "../../../modules/route"
+  source                 = "../../../../modules/route"
   for_each               = var.private_route1
   route_table_id         = module.private1_route_table["private1-route-table"].id
   destination_cidr_block = lookup(each.value, "destination_cidr_block", null)
@@ -154,7 +154,7 @@ module "private_route1" {
 }
 
 module "private_route2" {
-  source                 = "../../../modules/route"
+  source                 = "../../../../modules/route"
   for_each               = var.private_route2
   route_table_id         = module.private2_route_table["private2-route-table"].id
   destination_cidr_block = lookup(each.value, "destination_cidr_block", null)
@@ -166,24 +166,24 @@ module "private_route2" {
 # # -------------------------
 ## Public:
 module "public1_association_route_table" {
-  source         = "../../../modules/route-table-association"
+  source         = "../../../../modules/route-table-association"
   subnet_id      = module.subnet["public-subnet-1a"].id
   route_table_id = module.public_route_table["public-route-table"].id
 }
 module "public2_association_route_table" {
-  source         = "../../../modules/route-table-association"
+  source         = "../../../../modules/route-table-association"
   subnet_id      = module.subnet["public-subnet-1b"].id
   route_table_id = module.public_route_table["public-route-table"].id
 }
 
 ## Private:
 module "private1_association_route_table" {
-  source         = "../../../modules/route-table-association"
+  source         = "../../../../modules/route-table-association"
   subnet_id      = module.subnet["private-subnet-1a"].id
   route_table_id = module.private1_route_table["private1-route-table"].id
 }
 module "private2_association_route_table" {
-  source         = "../../../modules/route-table-association"
+  source         = "../../../../modules/route-table-association"
   subnet_id      = module.subnet["private-subnet-1b"].id
   route_table_id = module.private2_route_table["private2-route-table"].id
 }
@@ -192,7 +192,7 @@ module "private2_association_route_table" {
 # S3 Bucket
 # -----------------
 module "s3" {
-  source   = "../../../modules/s3-bucket"
+  source   = "../../../../modules/s3-bucket"
   for_each = var.s3
   name     = "${each.key}-${local.prefix}"
 }
@@ -211,7 +211,7 @@ resource "aws_s3_bucket_object" "upload_requirements" {
 # VPC Endpoint
 # -----------------
 module "vpc_endpoint" {
-  source              = "../../../modules/vpc-endpoint"
+  source              = "../../../../modules/vpc-endpoint"
   for_each            = var.vpc_endpoint
   service_name        = lookup(each.value, "service_name", null)
   vpc_endpoint_type   = lookup(each.value, "vpc_endpoint_type", null)
@@ -228,7 +228,7 @@ data "aws_iam_role" "mwaa_iam_role" {
 }
 
 module "mwaa-environment" {
-  source                = "../../../modules/mwaa-environment"
+  source                = "../../../../modules/mwaa-environment"
   for_each              = var.mwaa_environment
   name                  = "${each.key}-${local.prefix}"
   dag_s3_path           = lookup(each.value, "dag_s3_path", null)
